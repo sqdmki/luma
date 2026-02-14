@@ -1,2 +1,1 @@
-# Teamleader - sqdmki
->? blckwht junior.
+# Luma
