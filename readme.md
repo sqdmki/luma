@@ -1,0 +1,2 @@
+# Teamleader - sqdmki
+>? blckwht junior.

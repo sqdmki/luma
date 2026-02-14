@@ -1,0 +1,17 @@
+# General
+.DS_Store
+.env
+
+# Go
+/back/luma
+/back/luma.exe
+/back/*.exe
+/back/*.log
+
+# Node
+/front/node_modules/
+/front/.next/
+/front/dist/
+/front/build/
+/front/npm-debug.log
+/front/yarn-error.log
