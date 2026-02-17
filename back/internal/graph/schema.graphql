@@ -1,0 +1,75 @@
+type Query {
+  hello: String!
+  me: User
+  tracks(limit: Int, offset: Int): [Track!]!
+  track(id: ID!): Track
+}
+
+type Mutation {
+  register(input: RegisterInput!): AuthResponse!
+  login(input: LoginInput!): AuthResponse!
+  
+  # Track Management (Artist)
+  createTrack(input: CreateTrackInput!): Track!
+  deleteTrack(id: ID!): Boolean!
+
+  # User Interaction
+  addToCollection(trackId: ID!): Boolean!
+  removeFromCollection(trackId: ID!): Boolean!
+  followArtist(artistId: ID!): Boolean!
+  unfollowArtist(artistId: ID!): Boolean!
+  recordInterest(tag: String!, score: Float!): Boolean!
+}
+
+input RegisterInput {
+  email: String!
+  password: String!
+  displayName: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input CreateTrackInput {
+  title: String!
+  fileUrl: String!
+  coverUrl: String
+  genre: String!
+  tags: [String!]!
+  duration: Int!
+}
+
+type AuthResponse {
+  token: String!
+  refreshToken: String!
+  user: User!
+}
+
+type User {
+  id: ID!
+  email: String!
+  displayName: String!
+  avatarUrl: String
+  role: String!
+  isVerified: Boolean!
+  createdAt: String!
+  
+  # Relationships
+  collection(limit: Int, offset: Int): [Track!]!
+  followedArtists: [User!]!
+}
+
+type Track {
+  id: ID!
+  title: String!
+  artist: User!
+  fileUrl: String!
+  coverUrl: String
+  genre: String!
+  duration: Int!
+  playCount: Int!
+  createdAt: String!
+  tags: [String!]!
+}

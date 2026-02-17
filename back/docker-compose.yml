@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  luma-backend:
+    build: .
+    container_name: luma-backend
+    restart: unless-stopped
+    ports:
+      - "${PORT:-1323}:1323"
+    environment:
+      - DB_HOST=luma-postgres
+      - REDIS_HOST=luma-redis
+      - DB_PORT=5432
+      - REDIS_PORT=6379
+    env_file:
+      - .env
+    depends_on:
+      - luma-postgres
+      - luma-redis
+
+  luma-postgres:
+    image: postgres:16-alpine
+    container_name: luma-postgres
+    restart: unless-stopped
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    environment:
+      POSTGRES_USER: ${DB_USER:-luma_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-luma_password}
+      POSTGRES_DB: ${DB_NAME:-luma_db}
+    volumes:
+      - luma_pgdata:/var/lib/postgresql/data
+    env_file:
+      - .env
+
+  luma-redis:
+    image: redis:7-alpine
+    container_name: luma-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - luma_redisdata:/data
+    env_file:
+      - .env
+
+volumes:
+  luma_pgdata:
+  luma_redisdata:
