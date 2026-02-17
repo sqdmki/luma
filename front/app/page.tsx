@@ -1,9 +1,10 @@
 import Image from "next/image";
+import Player from "./components/Player";
 
 export default function Home() {
   return (
-    <div className="max-w-7xl flex items-center justify-center h-screen mx-auto">
-      <h1 className="text-6xl font-semibold text-center t.me/qodedigital">Luma — создаём удобство и свободу для Вас</h1>
+    <div className="relative flex-1 bg-(--bg-accent) rounded-[20px] p-[10px]">
+      <Player />
     </div>
   );
 }

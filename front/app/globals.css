@@ -8,13 +8,14 @@
 @layer base {
   :root {
     --original-color: #B38DFF;
-    --bg-color: #0A0A0B;
+    --bg-color: #121214;
+    --bg-accent: #080809;
   }
 
   body {
     background-color: var(--bg-color);
     color: #fff;
-    font-family: var(--font-ttcommons-regular);
+    font-family: var(--font-inter);
     letter-spacing: -0.02em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -22,7 +23,7 @@
   }
 
   #__luma {
-    @apply relative w-full h-full flex flex-col p-[7px];
+    @apply relative w-full h-screen flex items-stretch gap-[2px] p-[6px];
   }
 
   @media (pointer: fine) and (hover: hover) {
@@ -42,23 +43,21 @@
 }
 
 @layer utilities {
-  .font-light, .font-normal, .font-medium, .font-semibold, .font-bold {
-    font-weight: unset !important;
+  /* Custom Scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
   }
   
-  .font-light {
-    font-family: var(--font-ttcommons-regular);
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
   }
-  .font-normal {
-    font-family: var(--font-ttcommons-regular);
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
   }
-  .font-medium {
-    font-family: var(--font-ttcommons-medium);
-  }
-  .font-semibold {
-    font-family: var(--font-ttcommons-demibold);
-  }
-  .font-bold {
-    font-family: var(--font-ttcommons-bold);
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
   }
 }

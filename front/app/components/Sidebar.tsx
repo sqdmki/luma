@@ -1,127 +1,133 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Search, SlidersHorizontal, Plus, MoreHorizontal } from "lucide-react";
-import { NAV_ITEMS, LIBRARY_ITEMS, MOCK_ARTISTS } from "@/app/lib/constants";
+import { Home, Search, Flame, User, Settings, Disc3, type LucideIcon } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/app/lib/utils";
+
+const USER = {
+  name: "iliaz",
+  isPremium: true,
+};
+
+type SidebarItemProps = {
+  icon: LucideIcon;
+  label: string;
+  href: string;
+  isActive: boolean;
+};
+
+const NAV_ITEMS = [
+  { icon: Search, label: "Поиск", href: "/search" },
+  { icon: Home, label: "Главная", href: "/" },
+  { icon: Disc3, label: "Моя коллекция", href: "/collection" },
+  { icon: Flame, label: "Тренды", href: "/trends" },
+] satisfies Array<Omit<SidebarItemProps, "isActive">>;
+
+const SidebarItem = ({ icon: Icon, label, href, isActive }: SidebarItemProps) => {
+  return (
+    <Link href={href} className="w-full relative group block">
+      {isActive && (
+        <motion.div
+          layoutId="sidebar-active-item"
+          className="absolute inset-0 bg-white/10 rounded-[14px]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ type: "spring", stiffness: 320, damping: 32 }}
+        />
+      )}
+      <AnimatePresence>
+        {isActive && (
+          <motion.div
+            className="absolute left-0 top-1/2 w-[4px] bg-[#B38DFF] rounded-r-full"
+            style={{ y: "-50%", height: 20 }}
+            initial={{ opacity: 0, scaleY: 0 }}
+            animate={{ opacity: 1, scaleY: 1 }}
+            exit={{ opacity: 0, scaleY: 0 }}
+            transition={{ duration: 0.2 }}
+          />
+        )}
+      </AnimatePresence>
+      <motion.div
+        whileTap={{ scale: 0.985 }}
+        className={cn(
+          "relative flex items-center gap-4 py-3 px-4 rounded-[14px] transition-colors duration-200 z-10",
+          isActive ? "text-white" : "text-white/60 hover:text-white"
+        )}
+      >
+        <Icon
+          size={22}
+          strokeWidth={isActive ? 2.5 : 2}
+          className={cn(
+            "transition-colors duration-300",
+            isActive ? "text-[#B38DFF]" : "group-hover:text-white"
+          )}
+        />
+        <span className={cn("font-medium text-[16px]", isActive && "font-semibold")}>{label}</span>
+      </motion.div>
+    </Link>
+  );
+};
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const [searchQuery, setSearchQuery] = useState("");
-  const filteredArtists = MOCK_ARTISTS.filter((artist) =>
-    artist.name.toLowerCase().includes(searchQuery.trim().toLowerCase())
-  );
 
   return (
-    <aside className="w-[410px] h-full flex flex-col gap-4 p-4 relative">
-      <div className="relative group">
-        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-[#B38DFF] transition-colors duration-200">
-          <Search size={20} />
+    <aside className="w-[338px] bg-(--bg-accent) rounded-[20px] p-[24px] flex flex-col items-start justify-between h-full overflow-hidden shrink-0">
+      <div className="w-full flex flex-col gap-8">
+        <div className="px-2">
+          <Image
+            className="w-[100px] h-auto"
+            src="/logo-full.svg"
+            alt="Luma"
+            width={100}
+            height={24}
+            priority
+          />
         </div>
-        <input
-          type="text"
-          placeholder="Поиск..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full h-12 bg-white/4 hover:bg-white/7 focus:bg-white/7 rounded-2xl pl-12 pr-4 text-base text-white placeholder:text-white/30 outline-none transition-colors duration-200"
-        />
-      </div>
-
-      <nav className="flex flex-col gap-2">
-        {NAV_ITEMS.map((item) => {
-          const isActive = pathname === item.href;
-          return (
-            <Link key={item.href} href={item.href}>
-              <div
-                className={`flex items-center gap-4 px-4 py-3 rounded-2xl transition-colors duration-200 ${
-                  isActive
-                    ? "bg-[#B38DFF]/12 text-[#B38DFF]"
-                    : "text-white/70 hover:text-white hover:bg-white/4"
-                }`}
-              >
-                <item.icon size={24} strokeWidth={isActive ? 2.5 : 2} />
-                <span className={`text-lg font-medium ${isActive ? "font-semibold" : ""}`}>
-                  {item.name}
-                </span>
-              </div>
-            </Link>
-          );
-        })}
-      </nav>
-
-      <div className="flex-1 flex flex-col bg-white/2 rounded-3xl overflow-hidden">
-        <div className="px-3 pt-3 pb-2">
-          <div className="rounded-2xl bg-black/30 px-4 py-4">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <h2 className="text-white text-xl font-semibold leading-6">Моя медиатека</h2>
-                <p className="mt-1 text-sm text-white/45">Треки, артисты и история</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <button className="p-2 text-white/55 hover:text-white hover:bg-white/4 rounded-full transition-colors duration-200">
-                  <Plus size={18} />
-                </button>
-                <button className="p-2 text-white/55 hover:text-white hover:bg-white/4 rounded-full transition-colors duration-200">
-                  <MoreHorizontal size={18} />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="px-2 pb-2">
-          {LIBRARY_ITEMS.map((item) => (
-            <Link key={item.href} href={item.href}>
-              <div className="flex items-center gap-3 px-4 py-2.5 text-white/70 hover:text-white transition-colors rounded-xl hover:bg-white/5">
-                <item.icon size={20} />
-                <span className="text-base font-medium">{item.name}</span>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        <div className="flex-1 flex flex-col min-h-0">
-          <div className="px-5 pt-2 pb-3 flex items-end justify-between">
-            <span className="text-3xl leading-none text-white font-bold tracking-tight">Артисты</span>
-            <button className="flex items-center gap-2 text-sm text-white/55 hover:text-white transition-colors duration-200">
-              <span>Недавно добавленные</span>
-              <SlidersHorizontal size={14} />
-            </button>
-          </div>
-
-          <div className="flex-1 overflow-y-auto px-2 pb-5">
-            <div className="space-y-1.5">
-              {filteredArtists.map((artist) => (
-                <div
-                  key={artist.id}
-                  className="group flex items-center gap-3 px-3 py-3 rounded-2xl cursor-pointer hover:bg-white/4 transition-colors duration-200"
+        <nav className="flex flex-col gap-2 w-full">
+          <AnimatePresence mode="popLayout">
+            {NAV_ITEMS.map((item, index) => {
+              const isActive = pathname === item.href;
+              return (
+                <motion.div
+                  key={item.href}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.04, duration: 0.28 }}
                 >
-                  <div className="relative w-12 h-12 rounded-full overflow-hidden bg-white/10">
-                    <Image
-                      src={artist.avatar}
-                      alt={artist.name}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-white text-[18px] leading-6 font-medium truncate group-hover:text-[#B38DFF] transition-colors duration-200">
-                      {artist.name}
-                    </h3>
-                    <p className="text-base text-white/50 truncate">Артист</p>
-                  </div>
-                </div>
-              ))}
-              {filteredArtists.length === 0 && (
-                <div className="px-3 py-8 text-center text-base text-white/45">
-                  Ничего не найдено
-                </div>
+                  <SidebarItem icon={item.icon} label={item.label} href={item.href} isActive={isActive} />
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
+        </nav>
+      </div>
+      <div className="w-full mt-auto">
+        <motion.div
+          whileTap={{ scale: 0.985 }}
+          className="bg-(--bg-color) p-4 rounded-[18px] flex items-center gap-3 w-full transition-colors cursor-pointer hover:bg-white/5"
+        >
+          <div className="w-10 h-10 rounded-full bg-[#1A1A1C] flex items-center justify-center overflow-hidden shrink-0">
+            <User size={20} className="text-white/70" />
+          </div>
+          <div className="flex flex-col flex-1 min-w-0">
+            <span className="text-white font-medium text-[15px] truncate">{USER.name}</span>
+            <div className="flex items-center mt-1">
+              {USER.isPremium ? (
+                <span className="inline-flex items-center px-2 py-1 rounded-md bg-[#B38DFF]/10 text-[13px] font-medium text-[#B38DFF] leading-none">
+                  Luma Premium
+                </span>
+              ) : (
+                <span className="text-[13px] text-white/40">Free Plan</span>
               )}
             </div>
           </div>
-        </div>
+          <Settings size={20} className="text-white/40 hover:text-white transition-colors" />
+        </motion.div>
       </div>
     </aside>
   );
