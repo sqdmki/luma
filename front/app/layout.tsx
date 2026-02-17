@@ -1,11 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import localFont from "next/font/local";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import {
   SITE_AUTHOR,
   SITE_AUTHOR_URL,
   SITE_CREATOR,
-  SITE_DESCRIPTION,
+  SITE_DESCRIPTION,   
   SITE_ICON,
   SITE_KEYWORDS,
   SITE_NAME,
@@ -14,59 +14,15 @@ import {
   SITE_TWITTER_HANDLE,
   SITE_URL,
 } from "./lib/constants";
-import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
+import RightSidebar from "./components/RightSidebar";
+import Header from "./components/Header";
 
-const TTCommonsRegular = localFont({
-  src: "../public/fonts/TTCommons-Regular.woff2",
-  variable: "--font-ttcommons-regular",
-  display: "swap",
-  fallback: [
-    "Inter",
-    "-apple-system",
-    "BlinkMacSystemFont",
-    "system-ui",
-    "sans-serif",
-  ],
-});
-
-const TTCommonsMedium = localFont({
-  src: "../public/fonts/TTCommons-Medium.woff2",
-  variable: "--font-ttcommons-medium",
-  display: "swap",
-  fallback: [
-    "Inter",
-    "-apple-system",
-    "BlinkMacSystemFont",
-    "system-ui",
-    "sans-serif",
-  ],
-});
-
-const TTCommonsDemiBold = localFont({
-  src: "../public/fonts/TTCommons-DemiBold.woff2",
-  variable: "--font-ttcommons-demibold",
-  display: "swap",
-  fallback: [
-    "Inter",
-    "-apple-system",
-    "BlinkMacSystemFont",
-    "system-ui",
-    "sans-serif",
-  ],
-});
-
-const TTCommonsBold = localFont({
-  src: "../public/fonts/TTCommons-Bold.woff2",
-  variable: "--font-ttcommons-bold",
-  display: "swap",
-  fallback: [
-    "Inter",
-    "-apple-system",
-    "BlinkMacSystemFont",
-    "system-ui",
-    "sans-serif",
-  ],
+const fontInter = Inter({
+  subsets: ["latin", "cyrillic"],
+  weight: "variable",
+  variable: "--font-inter",
+  fallback: ["Inter", "Arial", "Helvetica", "system-ui", "sans-serif"],
 });
 
 export const viewport: Viewport = {
@@ -145,13 +101,16 @@ export default function RootLayout({
   return (
     <html
       lang="ru"
-      className={`${TTCommonsRegular.variable} ${TTCommonsMedium.variable} ${TTCommonsDemiBold.variable} ${TTCommonsBold.variable}`}
+      className={fontInter.className}
     >
       <body>
         <div id="__luma">
-          <Header />
           <Sidebar />
-          {children}
+          <main className="flex-1 flex flex-col min-w-0 relative">
+            <Header />
+            {children}
+          </main>
+          <RightSidebar />
         </div>
       </body>
     </html>
