@@ -1,26 +1,64 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  --default-transition-duration: 0.2s;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --original-color: #B38DFF;
+    --bg-color: #0A0A0B;
+  }
+
+  body {
+    background-color: var(--bg-color);
+    color: #fff;
+    font-family: var(--font-ttcommons-regular);
+    letter-spacing: -0.02em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  #__luma {
+    @apply relative w-full h-full flex flex-col p-[7px];
+  }
+
+  @media (pointer: fine) and (hover: hover) {
+    button {
+      cursor: pointer;
+    }
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  ::selection {
+    background: var(--original-color);
+    color: rgba(255, 255, 255, 0.95);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .font-light, .font-normal, .font-medium, .font-semibold, .font-bold {
+    font-weight: unset !important;
+  }
+  
+  .font-light {
+    font-family: var(--font-ttcommons-regular);
+  }
+  .font-normal {
+    font-family: var(--font-ttcommons-regular);
+  }
+  .font-medium {
+    font-family: var(--font-ttcommons-medium);
+  }
+  .font-semibold {
+    font-family: var(--font-ttcommons-demibold);
+  }
+  .font-bold {
+    font-family: var(--font-ttcommons-bold);
+  }
 }
