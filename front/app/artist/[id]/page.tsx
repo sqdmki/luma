@@ -112,7 +112,7 @@ export default function ArtistPage() {
           className="flex items-center gap-10 mb-12"
         >
           <motion.div variants={fadeUp} className="relative shrink-0">
-            <div className="w-[240px] h-[240px] rounded-full bg-white/5 flex items-center justify-center overflow-hidden ring-1 ring-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] relative">
+            <div className="w-[240px] h-[240px] rounded-full bg-white/5 flex items-center justify-center overflow-hidden relative">
               <Image src={ARTIST.image} alt={ARTIST.name} quality={100} fetchPriority="high" fill className="object-cover" />
               <span className="text-7xl font-bold text-white/10 absolute inset-0 flex items-center justify-center -z-10">{ARTIST.name[0]}</span>
             </div>
@@ -181,7 +181,7 @@ export default function ArtistPage() {
               <Music2 size={28} className="text-white/15" />
             </div>
             <div className="flex-1 min-w-0">
-              <span className="text-[14px] font-semibold opacity-80" style={{ color: accentColor }}>Новый релиз</span>
+              <span className="text-[14px] font-semibold" style={{ color: accentColor }}>Новый релиз</span>
               <p className="text-[24px] font-bold text-white mt-0.5 tracking-tight">{LATEST_RELEASE.title}</p>
               <p className="text-[15px] text-white/30 mt-1">{LATEST_RELEASE.type} &middot; {LATEST_RELEASE.year} &middot; {LATEST_RELEASE.trackCount} треков</p>
             </div>
