@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import { Search, Bell, User } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -20,9 +20,8 @@ export default function Header() {
       animate={{ 
         backgroundColor: isScrolled ? "rgba(8, 8, 9, 0.8)" : "rgba(8, 8, 9, 0)",
         backdropFilter: isScrolled ? "blur(20px)" : "blur(0px)",
-        borderBottomColor: isScrolled ? "rgba(255, 255, 255, 0.05)" : "rgba(255, 255, 255, 0)",
       }}
-      className="fixed top-0 right-0 left-[338px] h-[74px] z-50 flex items-center justify-between px-8 border-b transition-colors duration-300 pointer-events-none"
+      className="fixed top-0 right-0 left-[338px] h-[74px] z-50 flex items-center justify-between px-8 transition-colors duration-300 pointer-events-none"
     >
       <div className="flex items-center gap-4 pointer-events-auto">
         <div className="relative group">

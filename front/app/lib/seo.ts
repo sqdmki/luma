@@ -11,7 +11,7 @@ import {
   SITE_PUBLISHER,
   SITE_TWITTER_HANDLE,
   SITE_URL,
-} from "./constants";
+} from "../config/constants";
 
 interface ConstructMetadataProps {
   title?: string;

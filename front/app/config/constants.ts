@@ -1,0 +1,11 @@
+export const SITE_URL = "https://luma.qodedigital.com";
+export const SITE_NAME = "Luma";
+export const SITE_DESCRIPTION = "Слушайте музыку удобно и без границ в любой точке мира. Уже сегодня.";
+export const SITE_KEYWORDS = ["музыка", "стриминг", "онлайн", "слушать", "бесплатно", "плейлисты", "артисты", "luma", "qodedigital"];
+export const SITE_CREATOR = "QodeDigital";
+export const SITE_PUBLISHER = "QodeDigital";
+export const SITE_AUTHOR = "QodeDigital";
+export const SITE_AUTHOR_URL = "https://qodedigital.com";
+export const SITE_TWITTER_HANDLE = "@qodedigital";
+export const SITE_OG_IMAGE = "/og-image.png";
+export const SITE_ICON = "/logo-icon.svg";

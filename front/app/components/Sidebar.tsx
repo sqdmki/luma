@@ -3,12 +3,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Search, Flame, User, Settings, Disc3, type LucideIcon } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  Home,
+  Search,
+  Flame,
+  User,
+  Settings,
+  Disc3,
+  type LucideIcon,
+} from "lucide-react";
+import { motion } from "framer-motion";
 import { cn } from "@/app/lib/utils";
 
 const USER = {
-  name: "iliaz",
+  name: "blckwht",
   isPremium: true,
 };
 
@@ -26,36 +34,31 @@ const NAV_ITEMS = [
   { icon: Flame, label: "Тренды", href: "/trends" },
 ] satisfies Array<Omit<SidebarItemProps, "isActive">>;
 
-const SidebarItem = ({ icon: Icon, label, href, isActive }: SidebarItemProps) => {
+const SidebarItem = ({
+  icon: Icon,
+  label,
+  href,
+  isActive,
+}: SidebarItemProps) => {
   return (
     <Link href={href} className="w-full relative group block">
-      {isActive && (
-        <motion.div
-          layoutId="sidebar-active-item"
-          className="absolute inset-0 bg-white/10 rounded-[14px]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ type: "spring", stiffness: 320, damping: 32 }}
-        />
-      )}
-      <AnimatePresence>
-        {isActive && (
-          <motion.div
-            className="absolute left-0 top-1/2 w-[4px] bg-[#B38DFF] rounded-r-full"
-            style={{ y: "-50%", height: 20 }}
-            initial={{ opacity: 0, scaleY: 0 }}
-            animate={{ opacity: 1, scaleY: 1 }}
-            exit={{ opacity: 0, scaleY: 0 }}
-            transition={{ duration: 0.2 }}
-          />
+      <div
+        className={cn(
+          "absolute inset-0 rounded-[14px] transition-colors duration-200",
+          isActive ? "bg-white/5" : "bg-transparent",
         )}
-      </AnimatePresence>
+      />
+      <div
+        className={cn(
+          "absolute left-0 top-1/2 w-[3px] h-5 -translate-y-1/2 rounded-r-full transition-all duration-200",
+          isActive ? "bg-[#B38DFF] opacity-100 scale-y-100" : "bg-[#B38DFF] opacity-0 scale-y-0",
+        )}
+      />
       <motion.div
         whileTap={{ scale: 0.985 }}
         className={cn(
-          "relative flex items-center gap-4 py-3 px-4 rounded-[14px] transition-colors duration-200 z-10",
-          isActive ? "text-white" : "text-white/60 hover:text-white"
+          "relative flex items-center gap-4 py-4 px-[23px] rounded-[14px] transition-colors duration-200 z-10",
+          isActive ? "text-white" : "text-white/60 hover:text-white",
         )}
       >
         <Icon
@@ -63,10 +66,14 @@ const SidebarItem = ({ icon: Icon, label, href, isActive }: SidebarItemProps) =>
           strokeWidth={isActive ? 2.5 : 2}
           className={cn(
             "transition-colors duration-300",
-            isActive ? "text-[#B38DFF]" : "group-hover:text-white"
+            isActive ? "text-[#B38DFF]" : "group-hover:text-white",
           )}
         />
-        <span className={cn("font-medium text-[16px]", isActive && "font-semibold")}>{label}</span>
+        <span
+          className={cn("font-medium text-[16px]", isActive && "font-semibold")}
+        >
+          {label}
+        </span>
       </motion.div>
     </Link>
   );
@@ -76,34 +83,35 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-[338px] bg-(--bg-accent) rounded-[20px] p-[24px] flex flex-col items-start justify-between h-full overflow-hidden shrink-0">
-      <div className="w-full flex flex-col gap-8">
-        <div className="px-2">
-          <Image
-            className="w-[100px] h-auto"
-            src="/logo-full.svg"
-            alt="Luma"
-            width={100}
-            height={24}
-            priority
-          />
+    <aside className="w-[320px] bg-(--bg-accent) rounded-[20px] flex flex-col items-start justify-between h-full overflow-hidden shrink-0">
+      <div className="w-full">
+        <div className="w-full relative pt-[27px] px-[30px] pb-0 mb-[22px] flex items-center justify-between">
+          <div className="flex items-center">
+            <Image
+              className="w-[90px] h-auto"
+              src="/logo-full.svg"
+              alt="Luma"
+              width={90}
+              height={22}
+              quality={100}
+              fetchPriority="high"
+              priority
+            />
+          </div>
         </div>
-        <nav className="flex flex-col gap-2 w-full">
-          <AnimatePresence mode="popLayout">
-            {NAV_ITEMS.map((item, index) => {
-              const isActive = pathname === item.href;
-              return (
-                <motion.div
-                  key={item.href}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.04, duration: 0.28 }}
-                >
-                  <SidebarItem icon={item.icon} label={item.label} href={item.href} isActive={isActive} />
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
+        <nav className="flex flex-col w-full px-[8px]">
+          {NAV_ITEMS.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <SidebarItem
+                key={item.href}
+                icon={item.icon}
+                label={item.label}
+                href={item.href}
+                isActive={isActive}
+              />
+            );
+          })}
         </nav>
       </div>
       <div className="w-full mt-auto">
@@ -115,7 +123,9 @@ export default function Sidebar() {
             <User size={20} className="text-white/70" />
           </div>
           <div className="flex flex-col flex-1 min-w-0">
-            <span className="text-white font-medium text-[15px] truncate">{USER.name}</span>
+            <span className="text-white font-medium text-[15px] truncate">
+              {USER.name}
+            </span>
             <div className="flex items-center mt-1">
               {USER.isPremium ? (
                 <span className="inline-flex items-center px-2 py-1 rounded-md bg-[#B38DFF]/10 text-[13px] font-medium text-[#B38DFF] leading-none">
@@ -126,7 +136,10 @@ export default function Sidebar() {
               )}
             </div>
           </div>
-          <Settings size={20} className="text-white/40 hover:text-white transition-colors" />
+          <Settings
+            size={20}
+            className="text-white/40 hover:text-white transition-colors"
+          />
         </motion.div>
       </div>
     </aside>

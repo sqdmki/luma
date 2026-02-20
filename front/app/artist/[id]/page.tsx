@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Play, Heart, Shuffle, ChevronRight, Music2, Users } from "lucide-react";
+import { Play, Heart, Shuffle, ChevronRight, Music2 } from "lucide-react";
 import TrackItem from "@/app/components/TrackItem";
 import AlbumCard from "@/app/components/AlbumCard";
 import ArtistCard from "@/app/components/ArtistCard";
@@ -94,15 +94,14 @@ export default function ArtistPage() {
   const accentColor = useImageColor(ARTIST.image);
 
   return (
-    <div className="flex-1 bg-(--bg-accent) rounded-[20px] overflow-y-auto custom-scrollbar relative">
+    <div className="flex-1 bg-(--bg-accent) rounded-[20px] relative flex flex-col overflow-hidden">
+      <div className="relative flex-1">
+        <div className="absolute top-0 left-0 right-0 h-[700px] pointer-events-none overflow-hidden rounded-t-[20px]">
+          <AmbientLights color={accentColor} />
+          <div className="absolute bottom-0 left-0 right-0 h-[400px] bg-linear-to-t from-(--bg-accent) via-(--bg-accent)/60 to-transparent" />
+        </div>
 
-      {/* Atmospheric Ambient Lights */}
-      <div className="absolute top-0 left-0 right-0 h-[700px] pointer-events-none overflow-hidden rounded-t-[20px]">
-        <AmbientLights color={accentColor} />
-        <div className="absolute bottom-0 left-0 right-0 h-[400px] bg-linear-to-t from-(--bg-accent) via-(--bg-accent)/60 to-transparent" />
-      </div>
-
-      <div className="relative px-8 pt-24 pb-32">
+        <div className="relative p-9 pb-20">
 
         {/* Hero */}
         <motion.div
@@ -112,19 +111,21 @@ export default function ArtistPage() {
           className="flex items-center gap-10 mb-12"
         >
           <motion.div variants={fadeUp} className="relative shrink-0">
-            <div className="w-[240px] h-[240px] rounded-full bg-white/5 flex items-center justify-center overflow-hidden relative">
+            <div className="size-[240px] rounded-full bg-white/5 flex items-center justify-center overflow-hidden relative">
               <Image src={ARTIST.image} alt={ARTIST.name} quality={100} fetchPriority="high" fill className="object-cover" />
               <span className="text-7xl font-bold text-white/10 absolute inset-0 flex items-center justify-center -z-10">{ARTIST.name[0]}</span>
             </div>
             <div className="absolute -inset-4 blur-3xl rounded-full -z-10" style={{ backgroundColor: `${accentColor}1A` }} />
           </motion.div>
 
-          <motion.div variants={fadeUp} className="flex flex-col gap-2">
-            <h1 className="text-[96px] font-bold text-white leading-[0.85] tracking-[-0.05em] mb-2">{ARTIST.name}</h1>
-            <div className="flex items-center gap-4 text-[16px] font-medium text-white/40 tracking-tight">
-              <span>{ARTIST.listeners} слушателей</span>
-              <div className="w-1 h-1 rounded-full bg-white/10" />
-              <span>{ARTIST.followers} подписчиков</span>
+          <motion.div variants={fadeUp} className="flex flex-col gap-7">
+            <h1 className="text-[92px] font-bold text-white leading-[0.85] tracking-[-0.05em]">{ARTIST.name}</h1>
+            <div className="flex flex-col gap-1.5">
+              <div className="flex items-center gap-4 text-[17px] font-medium text-white/50 tracking-tight">
+                <span>{ARTIST.listeners} слушателей</span>
+                <div className="w-1 h-1 rounded-full bg-white/20" />
+                <span>{ARTIST.followers} подписчиков</span>
+              </div>
             </div>
           </motion.div>
         </motion.div>
@@ -153,9 +154,17 @@ export default function ArtistPage() {
             Перемешать
           </motion.button>
 
-          <div className="w-[100px] h-[60px] rounded-[14px] bg-white/4 overflow-hidden flex flex-col items-center justify-center ml-1 shrink-0 cursor-pointer hover:bg-white/7 transition-colors relative group">
-            <Play size={18} className="text-white/30 group-hover:text-white/60 transition-colors" />
-            <span className="text-[13px] text-white/30 font-medium mt-0.5 group-hover:text-white/50 transition-colors">Трейлер</span>
+          {/* Trailer - vertical rectangle like iPhone mockup */}
+          <div className="w-[38px] h-[52px] rounded-[8px] bg-white/5 overflow-hidden border border-white/10 shrink-0 cursor-pointer hover:border-white/20 transition-all relative group">
+            <Image 
+              src={ARTIST.image} 
+              alt="Trailer" 
+              fill 
+              className="object-cover opacity-40 group-hover:opacity-60 transition-opacity" 
+            />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Play size={12} fill="white" className="text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+            </div>
           </div>
 
           <motion.button
@@ -278,6 +287,7 @@ export default function ArtistPage() {
           </div>
         </motion.section>
 
+        </div>
       </div>
     </div>
   );

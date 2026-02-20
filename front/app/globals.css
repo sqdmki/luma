@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "overlayscrollbars/overlayscrollbars.css";
 
 @theme {
   --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -7,23 +8,56 @@
 
 @layer base {
   :root {
+    --full-vh: calc(var(--app-vh)*100);
+
     --original-color: #B38DFF;
+    --original-color-light: #D4BBFF;
+    --original-color-medium: #9166CC;
+    --original-color-dark: #6F42A6;
+    --original-color-deep: #4D2680;
     --bg-color: #121214;
+    --bg-surface: #18181B;
+    --bg-hover: #202023;
     --bg-accent: #080809;
   }
 
-  body {
-    background-color: var(--bg-color);
-    color: #fff;
-    font-family: var(--font-inter);
-    letter-spacing: -0.02em;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
+  @supports (height: 1svh) {
+    :root {
+      --app-vh: 1svh;
+    }
+  }
+  @supports not (height: 1svh) {
+    :root {
+      --app-vh: 1vh;
+    }
   }
 
-  #__luma {
-    @apply relative w-full h-screen flex items-stretch gap-[2px] p-[6px];
+  html,
+  :host {
+    line-height: normal;
+    scroll-behavior: smooth;
+  }
+
+  button,
+  a,
+  input,
+  textarea,
+  select,
+  label,
+  summary,
+  [role="button"],
+  [role="link"],
+  [role="checkbox"],
+  [role="switch"],
+  div {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+    border: none;
+  }
+  img {
+    -webkit-user-drag: none;
+    object-fit: contain;
+    user-select: none;
   }
 
   @media (pointer: fine) and (hover: hover) {
@@ -32,32 +66,91 @@
     }
   }
 
-  html {
-    scroll-behavior: smooth;
+  ::selection {
+    @apply text-white/90 bg-(--original-color);
   }
 
-  ::selection {
-    background: var(--original-color);
-    color: rgba(255, 255, 255, 0.95);
+  /* Стили для скроллбара */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.22);
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.45);
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+
+  body {
+    background-color: var(--bg-color);
+    color: #fff;
+    font-family: var(--font-ttint-regular);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  #__luma {
+    @apply relative w-full h-(--full-vh) flex justify-between items-stretch gap-[3px] p-[6px];
   }
 }
 
-@layer utilities {
-  /* Custom Scrollbar */
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 4px;
+@layer components {
+  .font-light, .font-normal, .font-medium, .font-semibold, .font-bold, .font-extrabold {
+    font-weight: unset !important;
   }
-  
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
+  .font-light {
+    font-family: var(--font-ttint-regular);
   }
-  
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
+  .font-normal {
+    font-family: var(--font-ttint-regular);
   }
-  
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.2);
+  .font-medium {
+    font-family: var(--font-ttint-medium);
+  }
+  .font-semibold {
+    font-family: var(--font-ttint-semibold);
+  }
+  .font-bold {
+    font-family: var(--font-ttint-bold);
+  }
+  .font-extrabold {
+    font-family: var(--font-ttint-extrabold);
+  }
+
+  .os-theme-dark {
+    --os-handle-bg: rgba(255, 255, 255, 0.22);
+    --os-handle-bg-hover: rgba(255, 255, 255, 0.55);
+    --os-handle-bg-active: rgba(255, 255, 255, 0.72);
+  }
+
+  .os-scrollbar.os-theme-dark {
+    --os-size: 12px;
+    --os-track-bg: rgba(255, 255, 255, 0.05);
+    --os-track-bg-hover: rgba(255, 255, 255, 0.08);
+    --os-handle-border-radius: 10px;
+    --os-handle-perpendicular-size: 72%;
+    --os-handle-perpendicular-size-hover: 100%;
+    --os-handle-perpendicular-size-active: 100%;
+  }
+
+  .os-scrollbar.os-theme-dark .os-scrollbar-track {
+    transition: background-color 0.2s ease;
+  }
+
+  .os-scrollbar.os-theme-dark .os-scrollbar-handle {
+    transition: background-color 0.2s ease, opacity 0.2s ease;
   }
 }
