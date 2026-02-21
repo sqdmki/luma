@@ -97,7 +97,7 @@ export function TrackProgressBar({ lineContainerRef }: TrackProgressBarProps) {
           <div className="w-full h-[3px] bg-white/20 rounded-full relative">
             <div
               ref={fillRef}
-              className="absolute top-0 left-0 bottom-0 bg-white rounded-full will-change-[width]"
+              className="absolute top-0 left-0 bottom-0 bg-white/80 rounded-full will-change-[width]"
               style={{ width: "0%" }}
             />
           </div>,

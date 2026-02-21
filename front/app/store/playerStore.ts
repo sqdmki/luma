@@ -37,6 +37,17 @@ export const DEMO_TRACKS: Track[] = [
     plays: "50,000",
     isExplicit: false,
     src: "/demo_tracks/sombr-oOdQdgWQ9PCYmlnlskIP.mp3", // Замените на реальный путь
+  },
+  {
+    id: "3",
+    title: "Зацепила",
+    artists: ["Артур Пирожков"],
+    album: "I Barely Know Her",
+    cover: "https://avatars.yandex.net/get-music-content/118603/209936f8.a.7045776-2/m1000x1000", // Замените на реальный путь
+    durationStr: "15:00",
+    plays: "50,000",
+    isExplicit: false,
+    src: "/demo_tracks/artur-pir-647ks0y6Tji6IU0rXui1.mp3", // Замените на реальный путь
   }
 ];
 

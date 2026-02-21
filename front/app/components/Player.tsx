@@ -8,6 +8,7 @@ import {
 } from "../lib/icons";
 import { usePlayerStore } from "../store/playerStore";
 import { useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { audioService } from "../services/audioService";
 import { VolumeSlider } from "./VolumeSlider";
 import { TrackProgressBar } from "./TrackProgressBar";
@@ -115,28 +116,53 @@ export default function Player() {
 
         <div className="relative overflow-hidden w-full h-full grid grid-cols-[1fr_auto_1fr] gap-[30px] items-stretch py-[7px] px-[8px]">
           {/* Левая часть: Инфо о треке */}
-          <div className="flex gap-[22px] items-center justify-start min-w-0 max-w-[350px] w-full">
-            <div className="h-full flex items-center gap-[10px] max-w-full min-w-0" aria-label="Track Info">
-              <div className="relative shrink-0 overflow-hidden rounded-[10px] flex items-center justify-center h-full w-auto aspect-square bg-white/10">
-                <Image src={currentTrack.cover} alt={`Обложка трека: ${currentTrack.title}`} fill quality={95} className="object-cover" />
-              </div>
-              <div className="flex flex-col justify-center items-start gap-[3px] min-w-0 w-full max-w-full">
-                <div className="flex items-center gap-[6px] max-w-full">
-                  <span className="text-[15px] text-white font-medium truncate w-full max-w-full">{currentTrack.title}</span>
-                  {currentTrack.isExplicit && (
-                    <span className="flex items-center">
-                      <ExplicitIcon className="w-[17px] h-auto max-md:w-[15px]" />
-                    </span>
-                  )}
-                </div>
-                <span className="text-[15px] text-white/65 font-medium truncate w-full max-w-full">{formattedArtists}</span>
-              </div>
-            </div>
-            <div className="flex items-center gap-[14px] shrink-0" aria-label="Controls">
+          <div className="flex items-center justify-start min-w-0 max-w-[350px] w-full">
+            <motion.div 
+              layout
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="relative min-w-[120px] h-full flex items-center overflow-hidden pr-[24px] rounded-[10px]"
+              style={{
+                WebkitMaskImage: 'linear-gradient(to right, black calc(100% - 24px), transparent 100%)',
+                maskImage: 'linear-gradient(to right, black calc(100% - 24px), transparent 100%)'
+              }}
+            >
+              <AnimatePresence initial={false} mode="popLayout">
+                <motion.div 
+                  key={currentTrack.id}
+                  initial={{ opacity: 0, x: 72 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -72 }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  className="h-full flex items-center gap-[10px] max-w-full min-w-0" 
+                  aria-label="Track Info"
+                >
+                  <div className="relative shrink-0 overflow-hidden rounded-[10px] flex items-center justify-center h-full w-auto aspect-square bg-white/10">
+                    <Image src={currentTrack.cover} alt={`Обложка трека: ${currentTrack.title}`} fill quality={95} className="object-cover" />
+                  </div>
+                  <div className="flex flex-col justify-center items-start gap-[3px] min-w-0 w-full max-w-full">
+                    <div className="flex items-center gap-[6px] max-w-full">
+                      <span className="text-[15px] text-white font-medium truncate w-full max-w-full">{currentTrack.title}</span>
+                      {currentTrack.isExplicit && (
+                        <span className="flex items-center shrink-0">
+                          <ExplicitIcon className="w-[17px] h-auto max-md:w-[15px]" />
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-[15px] text-white/65 font-medium truncate w-full max-w-full">{formattedArtists}</span>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </motion.div>
+            <motion.div 
+              layout
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="flex items-center gap-[14px] shrink-0" 
+              aria-label="Controls"
+            >
               <button aria-label="Добавить в мою коллекцию" className="transition-colors text-white/40 hover:text-white/60 flex items-center justify-center">
                 <HeartInactiveIcon className="w-[21px] h-auto max-md:w-[18px] text-current" />
               </button>
-            </div>
+            </motion.div>
           </div>
 
           {/* Центральная часть: Основные контролы */}
